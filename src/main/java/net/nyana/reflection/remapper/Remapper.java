@@ -16,18 +16,24 @@ public interface Remapper {
         return NoRemap.INSTANCE;
     }
 
-    static Remapper create(Map<String, ClassData> deobf, Map<String, ClassData> obf) {
-        return new RemapperImpl(deobf, obf);
-    }
-
-    static Remapper create(Path mappingsFile, String fromNamespace, String toNamespace) throws IOException {
+    // 根据 Mappings File 文件创建 Remapper 实例.
+    static Remapper loadMappingIo(
+            Path mappingsFile,
+            String fromNamespace,
+            String toNamespace
+    ) throws IOException {
         try (InputStream is = Files.newInputStream(mappingsFile)) {
-            return new RemapperImpl(is, fromNamespace, toNamespace);
+            return Remapper.loadMappingIo(is, fromNamespace, toNamespace);
         }
     }
 
-    static Remapper create(InputStream mappingsStream, String fromNamespace, String toNamespace) throws IOException {
-        return new RemapperImpl(mappingsStream, fromNamespace, toNamespace);
+    // 根据 Mappings 流创建 Remapper 实例.
+    static Remapper loadMappingIo(
+            InputStream mappingsStream,
+            String fromNamespace,
+            String toNamespace
+    ) throws IOException {
+        return new MappingRemapper(mappingsStream, fromNamespace, toNamespace);
     }
 
     // 将未混淆的 ClassName 映射成混淆后的 ClassName

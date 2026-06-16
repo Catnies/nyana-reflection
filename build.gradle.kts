@@ -36,9 +36,9 @@ tasks {
 
     shadowJar {
         archiveClassifier = ""
-        archiveFileName = "sparrow-reflection-${project.version}.jar"
+        archiveFileName = "nyana-reflection-${project.version}.jar"
         destinationDirectory.set(file("$rootDir/target"))
-        relocate("net.fabricmc.mappingio", "net.momirealms.sparrow.reflection.lib.mappingio")
+        relocate("net.fabricmc.mappingio", "net.nyana.reflection.lib.mappingio")
     }
 
     test {
@@ -58,11 +58,11 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "net.nyana"
-            artifactId = "nyana-message"
+            artifactId = "nyana-reflection"
             version = version
             from(components["java"])
             pom {
-                name = "Nyana Message"
+                name = "Nyana Reflection"
                 url = "https://github.com/Catnies/nyana-serialization"
             }
         }
