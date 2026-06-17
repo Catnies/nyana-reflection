@@ -21,6 +21,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.ow2.asm:asm:9.9.1")
     implementation(libs.mapping.io)
     compileOnly(libs.jetbrains.annotations)
 
