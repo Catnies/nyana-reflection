@@ -27,6 +27,7 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:6.0.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.ow2.asm:asm:9.9.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
