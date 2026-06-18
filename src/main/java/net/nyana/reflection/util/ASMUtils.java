@@ -98,8 +98,12 @@ public final class ASMUtils implements Opcodes {
     public static void pushInt(MethodVisitor mv, int value) {
         if (/* value >= -1 && */ value <= 5) {
             mv.visitInsn(ICONST_0 + value);
-        } else if (/* value >= Byte.MIN_VALUE && */ value <= Byte.MAX_VALUE) {
+        } else if (/* value > 5 && */ value <= Byte.MAX_VALUE) {
             mv.visitIntInsn(BIPUSH, value);
+        } else if (/* value > Byte.MAX_VALUE && */ value <= Short.MAX_VALUE) {
+            mv.visitIntInsn(SIPUSH, value);
+        } else {
+            mv.visitLdcInsn(value);
         }
     }
 }
