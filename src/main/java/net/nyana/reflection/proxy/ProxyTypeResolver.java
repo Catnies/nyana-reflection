@@ -10,14 +10,12 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * 解析 proxy 注解中的类型引用, 并封装 remap, nullable, activeIf 和数组类型规则
- */
+// 解析 proxy 注解中的类型引用, 并封装 remap, nullable, activeIf 和数组类型规则
 final class ProxyTypeResolver {
     private ProxyTypeResolver() {}
 
     /**
-     * 将一个代理接口类型解析为真实目标类型, inactive 或 nullable 缺失时允许返回 null
+     * 解析代理接口上的 @ReflectionProxy 为真实目标类型, inactive 或 nullable 缺失时允许返回 null.
      */
     static Class<?> resolveProxyTarget(Class<?> clazz) {
         if (clazz.isArray()) {
@@ -43,8 +41,22 @@ final class ProxyTypeResolver {
         return Objects.requireNonNull(proxiedClass, "Cannot find proxied class for " + clazz);
     }
 
+    private static Class<?> resolveProxyAnnotation(
+            Class<?> clazz,
+            ReflectionProxy proxy,
+            ClassLoader classLoader
+    ) {
+        if (proxy.clazz() == Object.class && proxy.name().length == 0) {
+            throw new IllegalArgumentException("ReflectionProxy doesn't have value or class name set for class " + clazz);
+        }
+        if (proxy.clazz() != Object.class) {
+            return proxy.clazz();
+        }
+        return findByNames(classLoader, proxy.name(), proxy.ignoreRelocation());
+    }
+
     /**
-     * 解析代理方法参数上的 @Type, 未声明时直接使用 Java 参数类型
+     * 解析代理方法参数上的 @Type, 未声明时直接使用 Java 参数类型.
      */
     static Class<?> resolveParameterType(Parameter parameter, ClassLoader classLoader) {
         Type type = parameter.getDeclaredAnnotation(Type.class);
@@ -58,20 +70,6 @@ final class ProxyTypeResolver {
             return resolveProxyTarget(type.clazz());
         }
         return findByNames(classLoader, type.name(), type.ignoreRelocation());
-    }
-
-    private static Class<?> resolveProxyAnnotation(
-            Class<?> clazz,
-            ReflectionProxy proxy,
-            ClassLoader classLoader
-    ) {
-        if (proxy.clazz() == Object.class && proxy.name().length == 0) {
-            throw new IllegalArgumentException("ReflectionProxy doesn't have value or class name set for class " + clazz);
-        }
-        if (proxy.clazz() != Object.class) {
-            return proxy.clazz();
-        }
-        return findByNames(classLoader, proxy.name(), proxy.ignoreRelocation());
     }
 
     private static Class<?> findByNames(

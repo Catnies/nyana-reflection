@@ -7,19 +7,14 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.util.List;
 
-/**
- * 加载 ASM 生成的隐藏类, 并回填 final 字段 setter 所需的 MethodHandle
- */
 final class HiddenProxyLoader {
 
-    /**
-     * 使用目标类的 private Lookup 定义 NESTMATE 隐藏类, 使代理类可直接访问目标私有成员
-     */
+    // 将 ProxyClassBytes 记录的代理实现类字节码正式加载和实例化.
     @SuppressWarnings("unchecked")
-    <T> T load(ProxyDefinition definition, ProxyClassBytes bytes) {
+    <T> T load(Class<?> proxyType, ProxyClassBytes bytes) {
         try {
-            // 借助目标类的 Lookup 定义隐藏类, NESTMATE 是访问私有字段/方法的关键约束
-            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(definition.targetType(), NyanaReflection.getLookup());
+            // hidden class 的包和 loader 由 lookupHost 决定.
+            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(bytes.lookupHost(), NyanaReflection.getLookup());
             MethodHandles.Lookup hiddenLookup = lookup.defineHiddenClass(
                     bytes.bytecode(),
                     true,
@@ -27,15 +22,16 @@ final class HiddenProxyLoader {
             );
             Class<?> proxyClass = hiddenLookup.lookupClass();
 
-            // final 字段无法直接 PUTFIELD, 生成类通过静态 MethodHandle 槽位间接调用 setter
-            injectStaticHandles(proxyClass, bytes.staticHandleBindings());
+            // 回填成员访问句柄到代理实现类的静态字段.
+            injectMethodHandles(proxyClass, bytes.methodHandleBindings());
             return (T) proxyClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create proxy class " + definition.proxyType(), e);
+            throw new RuntimeException("Failed to create proxy class " + proxyType, e);
         }
     }
 
-    private static void injectStaticHandles(
+    // 将 writer 收集到的 MethodHandle 按 HANDLE_n 顺序写回生成类的静态字段.
+    private static void injectMethodHandles(
             Class<?> proxyClass,
             List<MethodHandle> staticHandleBindings
     ) throws ReflectiveOperationException {

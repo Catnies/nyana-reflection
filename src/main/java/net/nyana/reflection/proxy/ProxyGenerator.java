@@ -1,11 +1,10 @@
 package net.nyana.reflection.proxy;
 
-/**
- * proxy 包的内部生成入口, 负责把公开的代理接口转换成可实例化的 ASM 隐藏类
- */
+// 把公开的代理接口转换成可实例化的 ASM 隐藏类
 final class ProxyGenerator {
     private static final ProxyBinder BINDER = new ProxyBinder(); // 注解解析与成员绑定
-    private static final ProxyClassWriter WRITER = new ProxyClassWriter(); // ASM 字节码写入
+    private static final ProxyClassWriter NESTMATE_WRITER = new NestmateProxyClassWriter(); // 同 loader 直接访问 writer
+    private static final ProxyClassWriter METHOD_HANDLE_WRITER = new MethodHandleProxyClassWriter(); // 跨 loader fallback writer
     private static final HiddenProxyLoader LOADER = new HiddenProxyLoader(); // 隐藏类加载与实例化
 
     private ProxyGenerator() {}
@@ -19,9 +18,14 @@ final class ProxyGenerator {
         if (definition == null) {
             return null;
         }
-        // 根据 ProxyDefinition 定义, 用 ASM 生成一个目标类的内部代理类实现.
-        ProxyClassBytes bytes = WRITER.write(definition);
+
+        // 只有 proxy 接口和目标类处于同一个 ClassLoader 时, 才能把实现类定义成目标类 nestmate.
+        ProxyClassWriter writer = definition.proxyType().getClassLoader() == definition.targetType().getClassLoader()
+                ? NESTMATE_WRITER
+                : METHOD_HANDLE_WRITER;
+        ProxyClassBytes bytes = writer.write(definition);
+
         // 使用加载器加载生成的类.
-        return LOADER.load(definition, bytes);
+        return LOADER.load(definition.proxyType(), bytes);
     }
 }

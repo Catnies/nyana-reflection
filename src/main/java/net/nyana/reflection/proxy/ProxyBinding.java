@@ -27,4 +27,3 @@ sealed interface ProxyBinding permits
     // 代理方法调用目标构造器
     record ConstructorInvoker(Method proxyMethod, Constructor<?> targetConstructor) implements ProxyBinding { }
 }
-

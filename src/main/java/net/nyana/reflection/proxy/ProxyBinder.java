@@ -22,13 +22,11 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * 扫描代理接口和父接口, 将注解声明绑定成不含 ASM 细节的 ProxyDefinition
+ * 扫描代理接口和父接口, 将注解声明解释成一份 ProxyDefinition
  */
 final class ProxyBinder {
 
-    /**
-     * 构建代理定义. 根代理接口 inactive 时返回 null, 父接口 inactive 时跳过对应方法
-     */
+    // 代理接口 inactive 时返回 null, 父接口 inactive 时跳过对应方法
     ProxyDefinition bind(Class<?> proxyType) {
         Objects.requireNonNull(proxyType, "Proxy type must not be null");
         if (!proxyType.isInterface()) {
