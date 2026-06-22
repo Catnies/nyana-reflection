@@ -157,29 +157,29 @@ public final class NyanaClass<T> {
     }
 
     // 使用 FieldMatcher 匹配获取 Class 内符合条件的 Field
-    public NyanaField getSparrowField(FieldMatcher matcher) {
+    public NyanaField getNyanaField(FieldMatcher matcher) {
         return NyanaField.ofNullable(getField(matcher));
     }
 
-    public NyanaField getSparrowField(FieldMatcher matcher, int index) {
+    public NyanaField getNyanaField(FieldMatcher matcher, int index) {
         return NyanaField.ofNullable(getField(matcher, index));
     }
 
     // 使用 FieldMatcher 匹配获取 Class 内符合条件的 Field
-    public NyanaField getDeclaredSparrowField(FieldMatcher matcher) {
+    public NyanaField getDeclaredNyanaField(FieldMatcher matcher) {
         return NyanaField.ofNullable(getDeclaredField(matcher));
     }
 
-    public NyanaField getDeclaredSparrowField(FieldMatcher matcher, int index) {
+    public NyanaField getDeclaredNyanaField(FieldMatcher matcher, int index) {
         return NyanaField.ofNullable(getDeclaredField(matcher, index));
     }
 
     // 使用 FieldMatcher 反向遍历匹配获取 Class 内符合条件的 Field
-    public NyanaField getSparrowFieldBackwards(FieldMatcher matcher, int index) {
+    public NyanaField getNyanaFieldBackwards(FieldMatcher matcher, int index) {
         return NyanaField.ofNullable(getFieldBackwards(matcher, index));
     }
 
-    public NyanaField getDeclaredSparrowFieldBackwards(FieldMatcher matcher, int index) {
+    public NyanaField getDeclaredNyanaFieldBackwards(FieldMatcher matcher, int index) {
         return NyanaField.ofNullable(getDeclaredFieldBackwards(matcher, index));
     }
 
@@ -222,29 +222,29 @@ public final class NyanaClass<T> {
     }
 
     // 使用 ConstructorMatcher 匹配获取 Class 内符合条件的 Constructor
-    public NyanaConstructor<T> getSparrowConstructor(ConstructorMatcher matcher) {
+    public NyanaConstructor<T> getNyanaConstructor(ConstructorMatcher matcher) {
         return NyanaConstructor.ofNullable(getConstructor(matcher));
     }
 
-    public NyanaConstructor<T> getSparrowConstructor(ConstructorMatcher matcher, int index) {
+    public NyanaConstructor<T> getNyanaConstructor(ConstructorMatcher matcher, int index) {
         return NyanaConstructor.ofNullable(getConstructor(matcher, index));
     }
 
     // 使用 ConstructorMatcher 匹配获取 Class 内符合条件的 Constructor
-    public NyanaConstructor<T> getDeclaredSparrowConstructor(ConstructorMatcher matcher) {
+    public NyanaConstructor<T> getDeclaredNyanaConstructor(ConstructorMatcher matcher) {
         return NyanaConstructor.ofNullable(getDeclaredConstructor(matcher));
     }
 
-    public NyanaConstructor<T> getDeclaredSparrowConstructor(ConstructorMatcher matcher, int index) {
+    public NyanaConstructor<T> getDeclaredNyanaConstructor(ConstructorMatcher matcher, int index) {
         return NyanaConstructor.ofNullable(getDeclaredConstructor(matcher, index));
     }
 
     // 使用 ConstructorMatcher 反向遍历匹配获取 Class 内符合条件的 Constructor
-    public NyanaConstructor<T> getSparrowConstructorBackwards(ConstructorMatcher matcher, int index) {
+    public NyanaConstructor<T> getNyanaConstructorBackwards(ConstructorMatcher matcher, int index) {
         return NyanaConstructor.ofNullable(getConstructorBackwards(matcher, index));
     }
 
-    public NyanaConstructor<T> getDeclaredSparrowConstructorBackwards(ConstructorMatcher matcher, int index) {
+    public NyanaConstructor<T> getDeclaredNyanaConstructorBackwards(ConstructorMatcher matcher, int index) {
         return NyanaConstructor.ofNullable(getDeclaredConstructorBackwards(matcher, index));
     }
 
@@ -276,29 +276,29 @@ public final class NyanaClass<T> {
     }
 
     // 使用 MethodMatcher 匹配获取 Class 内符合条件的 Method
-    public NyanaMethod getSparrowMethod(MethodMatcher matcher) {
+    public NyanaMethod getNyanaMethod(MethodMatcher matcher) {
         return NyanaMethod.ofNullable(getMethod(matcher));
     }
 
-    public NyanaMethod getSparrowMethod(MethodMatcher matcher, int index) {
+    public NyanaMethod getNyanaMethod(MethodMatcher matcher, int index) {
         return NyanaMethod.ofNullable(getMethod(matcher, index));
     }
 
     // 使用 MethodMatcher 匹配获取 Class 内符合条件的 Method
-    public NyanaMethod getDeclaredSparrowMethod(MethodMatcher matcher) {
+    public NyanaMethod getDeclaredNyanaMethod(MethodMatcher matcher) {
         return NyanaMethod.ofNullable(getDeclaredMethod(matcher));
     }
 
-    public NyanaMethod getDeclaredSparrowMethod(MethodMatcher matcher, int index) {
+    public NyanaMethod getDeclaredNyanaMethod(MethodMatcher matcher, int index) {
         return NyanaMethod.ofNullable(getDeclaredMethod(matcher, index));
     }
 
     // 使用 MethodMatcher 反向遍历匹配获取 Class 内符合条件的 Method
-    public NyanaMethod getSparrowMethodBackwards(MethodMatcher matcher, int index) {
+    public NyanaMethod getNyanaMethodBackwards(MethodMatcher matcher, int index) {
         return NyanaMethod.ofNullable(getMethodBackwards(matcher, index));
     }
 
-    public NyanaMethod getDeclaredSparrowMethodBackwards(MethodMatcher matcher, int index) {
+    public NyanaMethod getDeclaredNyanaMethodBackwards(MethodMatcher matcher, int index) {
         return NyanaMethod.ofNullable(getDeclaredMethodBackwards(matcher, index));
     }
 

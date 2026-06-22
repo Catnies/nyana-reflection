@@ -16,7 +16,7 @@ final class Target {
 }
 
 NyanaField field = NyanaClass.of(Target.class)
-        .getDeclaredSparrowField(fAllOf(fNamed("value"), fType(int.class)));
+        .getDeclaredNyanaField(fAllOf(fNamed("value"), fType(int.class)));
 
 ASMFieldAccessor accessor = field.asm();
 Target target = new Target();
@@ -158,17 +158,3 @@ dependencies {
     implementation("net.nyana:nyana-reflection:{latest_version}")
 }
 ```
-
-## 开发约定
-
-- 公共入口应尽量保持在 `net.nyana.reflection` 及其子包内。
-- ASM 生成的类名统一使用 `NyanaReflection.getAsmClassPrefix()`，可通过 `setAsmClassPrefix(...)` 覆盖。
-- 涉及混淆名、跨版本名称或 Minecraft 映射名时，优先接入 `Remapper`，避免在业务代码中硬编码运行时名称。
-- 新增代理能力时应覆盖同 loader、跨 loader、跨包和 shadow class 场景。
-
-## 注意事项
-
-- 该项目依赖深度反射、`sun.misc.Unsafe`、`MethodHandles.Lookup` 和 hidden class，适合运行在允许这些能力的 Java 17 环境中。
-- `NyanaReflection.init(...)` 会惰性初始化；需要自定义 `MethodHandles.Lookup` 时可主动调用。
-- `NyanaClass` 中保留了 `getSparrow*` 命名的方法，它们当前返回的是 Nyana 封装类型。
-- 仓库当前未声明许可证；使用、分发或发布前请先补充许可证文件。
