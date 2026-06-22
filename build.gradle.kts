@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.nyana"
-version = "1.0.0"
+version = "1.0.1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -62,10 +62,11 @@ publishing {
             groupId = "net.nyana"
             artifactId = "nyana-reflection"
             version = version
-            from(components["java"])
+            from(components["shadow"])
+            artifact(tasks.named("sourcesJar"))
             pom {
                 name = "Nyana Reflection"
-                url = "https://github.com/Catnies/nyana-serialization"
+                url = "https://github.com/Catnies/nyana-reflection"
             }
         }
     }

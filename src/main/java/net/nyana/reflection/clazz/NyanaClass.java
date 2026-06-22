@@ -58,6 +58,14 @@ public final class NyanaClass<T> {
         return null;
     }
 
+    public static Class<?> find(String clazz) {
+        try {
+            return Class.forName(NyanaReflection.getRemapper().remapClassName(clazz));
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
     // 根据可能的全类名查找 Class 对象, 并使用提供的类加载器加载它.
     public static Class<?> find(boolean load, ClassLoader classLoader, String... classes) {
         if (classes.length == 1) {
