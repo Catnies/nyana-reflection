@@ -1,5 +1,6 @@
 package net.nyana.reflection.constructor.factory;
 
+import net.nyana.reflection.NyanaReflection;
 import net.nyana.reflection.constructor.arity.*;
 import net.nyana.reflection.exception.ReflectionException;
 
@@ -10,8 +11,21 @@ public interface ASMConstructorFactory {
 
     Constructor<?> constructor();
 
+    // 探测当前构造器的 ASM 调用器是否可用; 返回 false 时 asm() 系列方法会抛出异常, 应改用 unreflect() 等基于 MethodHandle 的实现.
+    default boolean isAsmSupported() {
+        return NyanaReflection.isAsmSupported(this.constructor().getDeclaringClass());
+    }
+
+    // asm() 系列方法的前置检查, 类加载器不兼容时提前抛出带明确原因的异常.
+    private void checkAsmSupported() {
+        if (!this.isAsmSupported()) {
+            throw new ReflectionException("ASM constructor invoker unavailable: '" + this.constructor().getDeclaringClass().getName() + "' is loaded by a class loader that cannot see nyana-reflection classes. Use unreflect() (MethodHandle-based) instead.");
+        }
+    }
+
     // 生成以 Object[] 变长入参调用构造器的通用调用器.
     default ConstructorInvoker asm() {
+        this.checkAsmSupported();
         try {
             return ConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -21,6 +35,7 @@ public interface ASMConstructorFactory {
 
     // asm$0()..asm$10() 按固定参数个数生成定长调用器, 省去 Object[] 打包(此处为无参版本).
     default ConstructorInvoker0 asm$0() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -29,6 +44,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker1 asm$1() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -37,6 +53,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker2 asm$2() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -45,6 +62,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker3 asm$3() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -53,6 +71,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker4 asm$4() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -61,6 +80,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker5 asm$5() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -69,6 +89,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker6 asm$6() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -77,6 +98,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker7 asm$7() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -85,6 +107,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker8 asm$8() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -93,6 +116,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker9 asm$9() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {
@@ -101,6 +125,7 @@ public interface ASMConstructorFactory {
     }
 
     default ConstructorInvoker10 asm$10() {
+        this.checkAsmSupported();
         try {
             return OptimizedConstructorInvokerFactory.create(this.constructor());
         } catch (Throwable e) {

@@ -148,6 +148,24 @@ public final class NyanaReflection {
         return NyanaReflection.PREFIX;
     }
 
+    /**
+     * 能否为 {@code owner} 类生成 ASM 访问器.
+     * ASM 访问器是通过 defineHiddenClass(NESTMATE) 定义在 owner 的类加载器中的,
+     * 因此要求 owner 的类加载器能够解析到 nyana-reflection 自身的类.
+     * 返回 false 时 asm() 系列方法会抛出异常, 应改用 unreflect()/mh() 等基于 MethodHandle 的实现.
+     */
+    public static boolean isAsmSupported(@NotNull final Class<?> owner) {
+        ClassLoader ownerLoader = owner.getClassLoader();
+        ClassLoader nyanaLoader = NyanaReflection.class.getClassLoader();
+        if (ownerLoader == nyanaLoader) return true;
+        if (ownerLoader == null) return false;
+        try {
+            return Class.forName(NyanaReflection.class.getName(), false, ownerLoader) == NyanaReflection.class;
+        } catch (ClassNotFoundException | LinkageError e) {
+            return false;
+        }
+    }
+
     public static void setAsmClassPrefix(@NotNull String prefix) {
         NyanaReflection.PREFIX = Objects.requireNonNull(prefix);
     }
