@@ -1,12 +1,11 @@
-package net.nyana.reflection.condition.impl;
+package net.nyana.reflection.condition;
 
-import net.nyana.reflection.condition.CustomCondition;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * 在不初始化目标类的情况下检查它是否可被解析
  */
-public final class ClassExistsCondition extends CustomCondition {
+public final class ClassExists extends CustomCondition {
     private static boolean isPresent(String className, ClassLoader classLoader) {
         try {
             Class.forName(className, false, classLoader);
@@ -28,7 +27,7 @@ public final class ClassExistsCondition extends CustomCondition {
             return true;
         }
 
-        ClassLoader ownClassLoader = ClassExistsCondition.class.getClassLoader();
+        ClassLoader ownClassLoader = ClassExists.class.getClassLoader();
         return ownClassLoader != contextClassLoader && isPresent(className, ownClassLoader);
     }
 }
