@@ -31,9 +31,7 @@ final class ProxyTypeResolver {
         if (proxy == null) {
             throw new IllegalArgumentException("Class " + clazz + " has no @ReflectionProxy annotation");
         }
-        if (!ConditionChecker.matches(proxy.conditions())
-                || !NyanaReflection.getActivePredicate().test(proxy.activeIf())
-        ) {
+        if (!ConditionChecker.matches(proxy.conditions())) {
             return null;
         }
 

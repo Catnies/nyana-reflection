@@ -17,18 +17,18 @@ public final class RemapperHelper {
     private RemapperHelper() {
     }
 
-    private static Remapper create(Map<String, ClassData> deobf, Map<String, ClassData> obf) {
-        return new PaperRemapper(deobf, obf);
+    private static Remapper create(Map<String, ClassMapping> deobf, Map<String, ClassMapping> obf) {
+        return new MappingRemapper(deobf, obf);
     }
 
     private static Remapper create(Path mappingsFile, String fromNamespace, String toNamespace) throws IOException {
         try (InputStream is = Files.newInputStream(mappingsFile)) {
-            return new PaperRemapper(is, fromNamespace, toNamespace);
+            return new MappingRemapper(is, fromNamespace, toNamespace);
         }
     }
 
     private static Remapper create(InputStream mappingsStream, String fromNamespace, String toNamespace) throws IOException {
-        return new PaperRemapper(mappingsStream, fromNamespace, toNamespace);
+        return new MappingRemapper(mappingsStream, fromNamespace, toNamespace);
     }
 
     private static String firstLine(final InputStream is) {

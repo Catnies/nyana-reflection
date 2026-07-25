@@ -19,12 +19,6 @@ public @interface ConstructorInvoker {
     Condition[] conditions() default {};
 
     /**
-     * 交给 NyanaReflection active predicate 判断的版本或环境条件
-     */
-    @Deprecated
-    String activeIf() default "";
-
-    /**
      * 构造器缺失时是否跳过该代理方法
      */
     boolean optional() default false;

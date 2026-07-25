@@ -1,11 +1,5 @@
 package net.nyana.reflection.remapper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Map;
-
 /**
  * 将源码侧类名、字段名和方法名映射到当前运行时名称。
  */
@@ -14,26 +8,6 @@ public interface Remapper {
     // 无映射单例
     static Remapper noOp() {
         return NoRemap.INSTANCE;
-    }
-
-    // 根据 Mappings File 文件创建 Remapper 实例.
-    static Remapper loadMappingIo(
-            Path mappingsFile,
-            String fromNamespace,
-            String toNamespace
-    ) throws IOException {
-        try (InputStream is = Files.newInputStream(mappingsFile)) {
-            return Remapper.loadMappingIo(is, fromNamespace, toNamespace);
-        }
-    }
-
-    // 根据 Mappings 流创建 Remapper 实例.
-    static Remapper loadMappingIo(
-            InputStream mappingsStream,
-            String fromNamespace,
-            String toNamespace
-    ) throws IOException {
-        return new MappingRemapper(mappingsStream, fromNamespace, toNamespace);
     }
 
     // 将未混淆的 ClassName 映射成混淆后的 ClassName

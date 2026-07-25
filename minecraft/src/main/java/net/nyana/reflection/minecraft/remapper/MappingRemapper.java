@@ -1,9 +1,9 @@
-package net.nyana.reflection.remapper;
+package net.nyana.reflection.minecraft.remapper;
 
 import net.fabricmc.mappingio.MappingReader;
 import net.fabricmc.mappingio.tree.MappingTree;
 import net.fabricmc.mappingio.tree.MemoryMappingTree;
-import net.nyana.reflection.util.StringPool;
+import net.nyana.reflection.remapper.Remapper;
 
 import java.io.IOException;
 import java.io.InputStream;

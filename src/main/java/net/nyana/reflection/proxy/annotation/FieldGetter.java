@@ -29,12 +29,6 @@ public @interface FieldGetter {
     boolean isStatic() default false;
 
     /**
-     * 交给 NyanaReflection active predicate 判断的版本或环境条件
-     */
-    @Deprecated
-    String activeIf() default "";
-
-    /**
      * 字段缺失时是否跳过该代理方法
      */
     boolean optional() default false;

@@ -29,12 +29,6 @@ public @interface MethodInvoker {
     boolean isStatic() default false;
 
     /**
-     * 交给 NyanaReflection active predicate 判断的版本或环境条件
-     */
-    @Deprecated
-    String activeIf() default "";
-
-    /**
      * 方法缺失时是否跳过该代理方法
      */
     boolean optional() default false;

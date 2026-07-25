@@ -37,10 +37,4 @@ public @interface ReflectionProxy {
      * 目标类缺失时是否允许返回 null
      */
     boolean nullable() default false;
-
-    /**
-     * 交给 NyanaReflection active predicate 判断的版本或环境条件
-     */
-    @Deprecated
-    String activeIf() default "";
 }

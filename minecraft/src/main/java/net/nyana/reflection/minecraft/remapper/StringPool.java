@@ -1,16 +1,19 @@
 package net.nyana.reflection.minecraft.remapper;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 final class StringPool {
     private final Map<String, String> map;
 
-    StringPool(Map<String, String> map) {
-        this.map = map;
+    public StringPool() { this(4096); }
+
+    public StringPool(int expectedSize) {
+        this.map = new HashMap<>(expectedSize, 0.5f);   // 容量/负载因子收进来,不外泄给调用方
     }
 
-    public String get(final String key) {
+    public String intern(final String key) {
         return this.map.computeIfAbsent(key, Function.identity());
     }
 }

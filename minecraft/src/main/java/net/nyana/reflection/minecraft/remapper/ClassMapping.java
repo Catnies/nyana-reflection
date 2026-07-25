@@ -1,4 +1,4 @@
-package net.nyana.reflection.remapper;
+package net.nyana.reflection.minecraft.remapper;
 
 import java.util.Map;
 
