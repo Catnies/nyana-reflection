@@ -84,7 +84,6 @@ allprojects {
 
 dependencies {
     compileOnly("org.ow2.asm:asm:9.9.1")
-    implementation(libs.mapping.io)
 
     testRuntimeOnly("org.ow2.asm:asm:9.9.1")
 }
@@ -92,9 +91,5 @@ dependencies {
 tasks {
     clean {
         delete("target")
-    }
-
-    shadowJar {
-        relocate("net.fabricmc.mappingio", "net.nyana.reflection.lib.mappingio")
     }
 }
