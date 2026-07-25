@@ -1,5 +1,7 @@
 package net.nyana.reflection.proxy.annotation;
 
+import net.nyana.reflection.condition.annotation.Condition;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,10 +13,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConstructorInvoker {
+    /**
+     * 启用此构造器绑定前必须通过的全部条件
+     */
+    Condition[] conditions() default {};
 
     /**
      * 交给 NyanaReflection active predicate 判断的版本或环境条件
      */
+    @Deprecated
     String activeIf() default "";
 
     /**

@@ -4,13 +4,14 @@ import net.nyana.reflection.NyanaReflection;
 import net.nyana.reflection.clazz.NyanaClass;
 import net.nyana.reflection.proxy.annotation.ReflectionProxy;
 import net.nyana.reflection.proxy.annotation.Type;
+import net.nyana.reflection.condition.ConditionChecker;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Objects;
 
-// 解析 proxy 注解中的类型引用, 并封装 remap, nullable, activeIf 和数组类型规则
+// 解析 proxy 注解中的类型引用, 并封装 remap, nullable, condition 和数组类型规则
 final class ProxyTypeResolver {
     private ProxyTypeResolver() {}
 
@@ -30,7 +31,9 @@ final class ProxyTypeResolver {
         if (proxy == null) {
             throw new IllegalArgumentException("Class " + clazz + " has no @ReflectionProxy annotation");
         }
-        if (!NyanaReflection.getActivePredicate().test(proxy.activeIf())) {
+        if (!ConditionChecker.matches(proxy.conditions())
+                || !NyanaReflection.getActivePredicate().test(proxy.activeIf())
+        ) {
             return null;
         }
 

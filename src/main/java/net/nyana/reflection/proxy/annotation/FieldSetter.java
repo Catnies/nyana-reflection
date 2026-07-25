@@ -1,5 +1,7 @@
 package net.nyana.reflection.proxy.annotation;
 
+import net.nyana.reflection.condition.annotation.Condition;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,6 +13,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldSetter {
+    /**
+     * 启用此字段写入绑定前必须通过的全部条件
+     */
+    Condition[] conditions() default {};
 
     /**
      * 可匹配的字段名, 会经过字段名 remap
@@ -25,6 +31,7 @@ public @interface FieldSetter {
     /**
      * 交给 NyanaReflection active predicate 判断的版本或环境条件
      */
+    @Deprecated
     String activeIf() default "";
 
     /**
