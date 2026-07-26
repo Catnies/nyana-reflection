@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public final class NyanaReflection {
     private static volatile Unsafe UNSAFE;
@@ -24,6 +25,7 @@ public final class NyanaReflection {
 
     private static String PREFIX = "Nyana";
     private static Remapper REMAPPER = Remapper.noOp();
+    private static Predicate<String> ACTIVE_PREDICATE = s -> true;
 
     private NyanaReflection() {}
 
@@ -175,5 +177,14 @@ public final class NyanaReflection {
 
     public static void setRemapper(@NotNull Remapper remapper) {
         NyanaReflection.REMAPPER = Objects.requireNonNull(remapper);
+    }
+
+    @NotNull
+    public static Predicate<String> getActivePredicate() {
+        return NyanaReflection.ACTIVE_PREDICATE;
+    }
+
+    public static void setActivePredicate(@NotNull Predicate<String> predicate) {
+        NyanaReflection.ACTIVE_PREDICATE = Objects.requireNonNull(predicate);
     }
 }

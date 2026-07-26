@@ -4,7 +4,6 @@ import net.nyana.reflection.NyanaReflection;
 import net.nyana.reflection.clazz.NyanaClass;
 import net.nyana.reflection.proxy.annotation.ReflectionProxy;
 import net.nyana.reflection.proxy.annotation.Type;
-import net.nyana.reflection.condition.ConditionChecker;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Parameter;
@@ -31,7 +30,7 @@ final class ProxyTypeResolver {
         if (proxy == null) {
             throw new IllegalArgumentException("Class " + clazz + " has no @ReflectionProxy annotation");
         }
-        if (!ConditionChecker.matches(proxy.conditions())) {
+        if (!NyanaReflection.getActivePredicate().test(proxy.activeIf())) {
             return null;
         }
 

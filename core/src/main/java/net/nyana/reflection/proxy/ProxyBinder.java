@@ -9,7 +9,6 @@ import net.nyana.reflection.proxy.annotation.ConstructorInvoker;
 import net.nyana.reflection.proxy.annotation.FieldGetter;
 import net.nyana.reflection.proxy.annotation.FieldSetter;
 import net.nyana.reflection.proxy.annotation.MethodInvoker;
-import net.nyana.reflection.condition.ConditionChecker;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -115,7 +114,7 @@ final class ProxyBinder {
             Method method
     ) {
         FieldGetter annotation = method.getAnnotation(FieldGetter.class);
-        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
+        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
             return null;
         }
 
@@ -137,7 +136,7 @@ final class ProxyBinder {
             Method method
     ) {
         FieldSetter annotation = method.getAnnotation(FieldSetter.class);
-        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
+        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
             return null;
         }
 
@@ -159,7 +158,7 @@ final class ProxyBinder {
             Method method
     ) {
         MethodInvoker annotation = method.getAnnotation(MethodInvoker.class);
-        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
+        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
             return null;
         }
 
@@ -184,7 +183,7 @@ final class ProxyBinder {
             Method method
     ) {
         ConstructorInvoker annotation = method.getAnnotation(ConstructorInvoker.class);
-        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
+        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
             return null;
         }
 

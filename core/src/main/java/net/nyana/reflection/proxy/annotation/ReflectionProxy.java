@@ -1,7 +1,5 @@
 package net.nyana.reflection.proxy.annotation;
 
-import net.nyana.reflection.condition.annotation.Condition;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,10 +11,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ReflectionProxy {
+
     /**
-     * 启用此代理接口前必须通过的全部条件
+     * 交给 NyanaReflection active predicate 判断的条件
      */
-    Condition[] conditions() default {};
+    String activeIf() default "";
 
     /**
      * 直接指定目标类, 优先级高于 name
