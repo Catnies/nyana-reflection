@@ -1,10 +1,10 @@
-package net.nyana.reflection.minecraft.remapper;
+package net.nyana.reflection.util;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-final class StringPool {
+public final class StringPool {
     private final Map<String, String> map;
 
     public StringPool() { this(4096); }

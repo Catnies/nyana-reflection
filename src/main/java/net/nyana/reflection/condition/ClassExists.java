@@ -6,14 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * 在不初始化目标类的情况下检查它是否可被解析
  */
 public final class ClassExists extends CustomCondition {
-    private static boolean isPresent(String className, ClassLoader classLoader) {
-        try {
-            Class.forName(className, false, classLoader);
-            return true;
-        } catch (ClassNotFoundException | LinkageError ignored) {
-            return false;
-        }
-    }
 
     @Override
     public boolean check(@NotNull String[] value) {
@@ -29,5 +21,14 @@ public final class ClassExists extends CustomCondition {
 
         ClassLoader ownClassLoader = ClassExists.class.getClassLoader();
         return ownClassLoader != contextClassLoader && isPresent(className, ownClassLoader);
+    }
+
+    private static boolean isPresent(String className, ClassLoader classLoader) {
+        try {
+            Class.forName(className, false, classLoader);
+            return true;
+        } catch (ClassNotFoundException | LinkageError ignored) {
+            return false;
+        }
     }
 }

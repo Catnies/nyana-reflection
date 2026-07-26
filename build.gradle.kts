@@ -31,10 +31,14 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven("https://maven.fabricmc.net/")
     }
 
     dependencies {
+        compileOnly(rootProject.libs.asm)
+        compileOnly(rootProject.libs.gson)
         compileOnly(rootProject.libs.jetbrains.annotations)
+        implementation(rootProject.libs.mapping.io)
 
         testImplementation(platform("org.junit:junit-bom:6.0.0"))
         testImplementation("org.junit.jupiter:junit-jupiter")
@@ -74,18 +78,13 @@ allprojects {
             archiveClassifier = ""
             archiveFileName = "$moduleArtifactId-${project.version}.jar"
             destinationDirectory.set(rootProject.file("target"))
+            relocate("net.fabricmc.mappingio", "net.nyana.reflection.lib.mappingio")
         }
 
         test {
             useJUnitPlatform()
         }
     }
-}
-
-dependencies {
-    compileOnly("org.ow2.asm:asm:9.9.1")
-
-    testRuntimeOnly("org.ow2.asm:asm:9.9.1")
 }
 
 tasks {

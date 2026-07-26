@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 @Target({})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Condition {
+
     Class<? extends CustomCondition> type();
 
     String[] value() default "";

@@ -9,6 +9,9 @@ import java.lang.reflect.Constructor;
  * 求值代理注解上声明的条件
  */
 public final class ConditionChecker {
+    private ConditionChecker() {
+    }
+
     /**
      * 仅当全部条件都接受各自的值时返回 {@code true}
      */
@@ -32,8 +35,5 @@ public final class ConditionChecker {
             }
         }
         return true;
-    }
-
-    private ConditionChecker() {
     }
 }
