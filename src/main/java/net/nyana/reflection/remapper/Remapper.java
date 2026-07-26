@@ -36,6 +36,10 @@ public interface Remapper {
         return new MappingRemapper(mappingsStream, fromNamespace, toNamespace);
     }
 
+    static Remapper formMap(Map<String, ClassMapping> deobf, Map<String, ClassMapping> obf) {
+        return new MappingRemapper(deobf, obf);
+    }
+
     // 将未混淆的 ClassName 映射成混淆后的 ClassName
     String remapClassName(String className);
 

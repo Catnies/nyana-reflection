@@ -9,6 +9,7 @@ import net.nyana.reflection.proxy.annotation.ConstructorInvoker;
 import net.nyana.reflection.proxy.annotation.FieldGetter;
 import net.nyana.reflection.proxy.annotation.FieldSetter;
 import net.nyana.reflection.proxy.annotation.MethodInvoker;
+import net.nyana.reflection.condition.ConditionChecker;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -24,6 +25,7 @@ import java.util.Set;
 /**
  * 扫描代理接口和父接口, 将注解声明解释成一份 ProxyDefinition
  */
+@SuppressWarnings("deprecation")
 final class ProxyBinder {
 
     // 代理接口 inactive 时返回 null, 父接口 inactive 时跳过对应方法
@@ -113,7 +115,7 @@ final class ProxyBinder {
             Method method
     ) {
         FieldGetter annotation = method.getAnnotation(FieldGetter.class);
-        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
+        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
             return null;
         }
 
@@ -135,7 +137,7 @@ final class ProxyBinder {
             Method method
     ) {
         FieldSetter annotation = method.getAnnotation(FieldSetter.class);
-        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
+        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
             return null;
         }
 
@@ -157,7 +159,7 @@ final class ProxyBinder {
             Method method
     ) {
         MethodInvoker annotation = method.getAnnotation(MethodInvoker.class);
-        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
+        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
             return null;
         }
 
@@ -182,7 +184,7 @@ final class ProxyBinder {
             Method method
     ) {
         ConstructorInvoker annotation = method.getAnnotation(ConstructorInvoker.class);
-        if (annotation == null || !NyanaReflection.getActivePredicate().test(annotation.activeIf())) {
+        if (annotation == null || !ConditionChecker.matches(annotation.conditions())) {
             return null;
         }
 
