@@ -9,12 +9,11 @@ import net.nyana.reflection.remapper.Remapper;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-
 public final class PaperRemapper {
     private PaperRemapper() {
     }
 
-    public static Remapper createFromPaperJar() {
+    public static Remapper create() {
         // mojang mappings
         if (VersionHelper.mojmapMapping) {
             return Remapper.noOp();

@@ -4,20 +4,16 @@ plugins {
     id("com.gradleup.shadow") version "9.4.1"
 }
 
-val snapshot = true
-
 allprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
     apply(plugin = "com.gradleup.shadow")
 
     group = "net.nyana"
-    version = "1.0.4${if (snapshot) "-snapshot" else ""}"
-
-    val moduleArtifactId = "${rootProject.name}${if (this != rootProject) "-${project.name}" else ""}"
+    version = rootProject.libs.versions.project.version.get()
 
     base {
-        archivesName.set(moduleArtifactId)
+        archivesName.set("${rootProject.name}-${project.name}")
     }
 
     java {
@@ -35,38 +31,8 @@ allprojects {
     }
 
     dependencies {
-        compileOnly(rootProject.libs.asm)
         compileOnly(rootProject.libs.gson)
         compileOnly(rootProject.libs.jetbrains.annotations)
-        implementation(rootProject.libs.mapping.io)
-
-        testImplementation(platform("org.junit:junit-bom:6.0.0"))
-        testImplementation("org.junit.jupiter:junit-jupiter")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    }
-
-    publishing {
-        repositories {
-            maven {
-                name = "Catnies"
-                url = uri("https://repo.catnies.top/${if (snapshot) "snapshots" else "releases"}")
-                credentials(PasswordCredentials::class)
-                authentication { create<BasicAuthentication>("basic") }
-            }
-        }
-        publications {
-            create<MavenPublication>("maven") {
-                groupId = "net.nyana"
-                artifactId = moduleArtifactId
-                version = version
-                from(components["shadow"])
-                artifact(tasks.named("sourcesJar"))
-                pom {
-                    name = "Nyana Reflection"
-                    url = "https://github.com/Catnies/nyana-reflection"
-                }
-            }
-        }
     }
 
     tasks {
@@ -76,18 +42,18 @@ allprojects {
 
         shadowJar {
             archiveClassifier = ""
-            archiveFileName = "$moduleArtifactId-${project.version}.jar"
+            archiveFileName = "${rootProject.name}-${project.name}-${project.version}.jar"
             destinationDirectory.set(rootProject.file("target"))
-            relocate("net.fabricmc.mappingio", "net.nyana.reflection.lib.mappingio")
-        }
-
-        test {
-            useJUnitPlatform()
         }
     }
 }
 
 tasks {
+    // 根项目不产出 jar, 避免生成 nyana-reflection-nyana-reflection 构件
+    named("jar") { enabled = false }
+    named("shadowJar") { enabled = false }
+    named("sourcesJar") { enabled = false }
+
     clean {
         delete("target")
     }
