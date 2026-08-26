@@ -1,5 +1,5 @@
 [versions]
-project-version = "1.0.4"
+project-version = "1.0.5"
 
 [libraries]
 asm = { module = "org.ow2.asm:asm", version = "9.9.1"}
